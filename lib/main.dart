@@ -6,12 +6,14 @@ import 'provider/journal_provider.dart';
 import 'provider/weather_provider.dart';
 import 'services/auth_service.dart';
 import 'screens/auth_wrapper.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await initializeDateFormatting('id_ID', null);
   runApp(const MyApp());
 }
 

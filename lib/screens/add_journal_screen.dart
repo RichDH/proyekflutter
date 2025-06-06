@@ -25,7 +25,6 @@ class _AddJournalScreenState extends State<AddJournalScreen> {
     final weatherProvider = Provider.of<WeatherProvider>(context, listen: false);
     final journalProvider = Provider.of<JournalProvider>(context, listen: false);
     final authService = Provider.of<AuthService>(context, listen: false);
-
     final currentUser = authService.currentUser;
     final currentWether = weatherProvider.weather;
 
