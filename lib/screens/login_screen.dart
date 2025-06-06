@@ -130,15 +130,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: const Text('Login'),
                 ),
                 const SizedBox(height: 12),
-
-                // === BAGIAN YANG DIUBAH ===
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text('Belum punya akun?'),
                     TextButton(
                       onPressed: () {
-                        // Navigasi ke halaman RegisterScreen
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => const RegisterScreen(),
@@ -149,7 +146,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                // ==========================
               ],
             ),
           ),

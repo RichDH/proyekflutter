@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Untuk formatting tanggal dan waktu
+import 'package:intl/intl.dart';
 import '../model/journal_entry.dart';
 
 class JournalDetailScreen extends StatelessWidget {

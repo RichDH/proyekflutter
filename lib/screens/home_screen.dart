@@ -15,18 +15,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Method ini dipanggil sekali saat widget pertama kali dibuat.
-  // Kita gunakan untuk memuat data jurnal dari database.
   @override
   void initState() {
     super.initState();
-    // Kita gunakan addPostFrameCallback untuk memastikan 'context' sudah siap digunakan.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Ambil user ID yang sedang login
       final user = Provider.of<AuthService>(context, listen: false).currentUser;
       if (user != null) {
-        // Panggil provider untuk mengambil data jurnal berdasarkan user ID
-        // listen: false karena kita hanya perlu memanggil method, tidak perlu me-rebuild widget ini.
         Provider.of<JournalProvider>(context, listen: false)
             .fetchEntries(user.uid);
       }
@@ -35,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Ambil auth service untuk fungsi logout
     final authService = Provider.of<AuthService>(context, listen: false);
 
     return Scaffold(
@@ -48,7 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(Icons.logout),
             tooltip: 'Logout',
             onPressed: () async {
-              // Tampilkan dialog konfirmasi sebelum logout
               final bool? shouldLogout = await showDialog<bool>(
                 context: context,
                 builder: (context) => AlertDialog(
@@ -75,15 +67,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: Consumer<JournalProvider>(
-        // Consumer akan otomatis me-rebuild widget di dalam builder-nya
-        // setiap kali journalProvider.notifyListeners() dipanggil.
         builder: (context, journalProvider, child) {
-          // 1. Tampilkan loading indicator jika data sedang diambil
           if (journalProvider.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-
-          // 2. Tampilkan pesan jika tidak ada entri jurnal
           if (journalProvider.entries.isEmpty) {
             return const Center(
               child: Padding(
@@ -97,7 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }
 
-          // 3. Tampilkan daftar jurnal jika data sudah ada
           return ListView.builder(
             padding: const EdgeInsets.all(8.0),
             itemCount: journalProvider.entries.length,
@@ -123,16 +109,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   subtitle: Text(
                     entry.notes,
-                    maxLines: 2, // Batasi catatan hingga 2 baris
-                    overflow: TextOverflow.ellipsis, // Tampilkan '...' jika lebih
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   trailing: Text(
-                    // Format tanggal menggunakan package intl
                     DateFormat('d MMM yyyy').format(entry.date),
                     style: const TextStyle(color: Colors.grey, fontSize: 12),
                   ),
                   onTap: () {
-                    // Navigasi ke halaman detail saat item di-tap
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (_) => JournalDetailScreen(entry: entry),
@@ -147,7 +131,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigasi ke halaman untuk menambah jurnal baru
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (_) => AddJournalScreen(),
